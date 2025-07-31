@@ -66,11 +66,16 @@ public class Principal {
                 .collect(Collectors.toList());
 
 
-        System.out.println("\nTop 5 Episódios: ");
+        System.out.println("\nTop 10 Episódios: ");
         dadosEpisodios.stream()
                 .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .peek(e -> System.out.println("Primeiro filtro 'N/A' " + e))
                 .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                .limit(5)
+                .peek(e -> System.out.println("Ordenação " + e))
+                .limit(10)
+                .peek(e -> System.out.println("Limite " + e))
+                .map(e -> e.titulo().toUpperCase())
+                .peek(e -> System.out.println("Mapemaneto " + e))
                 .forEach(System.out::println);
 
         List<Episodio> episodios = temporadas.stream()
