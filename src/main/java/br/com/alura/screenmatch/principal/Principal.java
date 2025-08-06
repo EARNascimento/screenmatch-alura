@@ -1,25 +1,33 @@
 package br.com.alura.screenmatch.principal;
 
 import br.com.alura.screenmatch.model.*;
+import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
-import org.springframework.beans.factory.annotation.Value;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
 
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
-    @Value("${OMDB_API_KEY}")
-    private static String OMDB_API_KEY;
+
+    private final String OMDB_API_KEY = "";
+
     private Scanner leitura = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();
 
     private List<DadosSerie> dadosSeries = new ArrayList<>();
+
+    
+    private SerieRepository repositorio;
+
+    public Principal(SerieRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     public void exibeMenu(){
         var opcao = -1;
@@ -58,7 +66,9 @@ public class Principal {
 
     private void buscarSerieWeb(){
         DadosSerie dados = getDadosSerie();
-        dadosSeries.add(dados);
+        Serie serie = new Serie(dados);
+//        dadosSeries.add(dados);
+        repositorio.save(serie);
         System.out.println(dados);
     }
 
@@ -92,6 +102,7 @@ public class Principal {
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
     }
+
 
 
 //    public void exibeMenu(){

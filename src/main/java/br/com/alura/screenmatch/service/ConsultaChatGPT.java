@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.service;
 
+import com.theokanning.openai.OpenAiHttpException;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,8 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class ConsultaChatGPT {
 
-    @Value("${GPT_API_KEY}")
-    private static String GPT_API_KEY;
+    //Chave API apenas para demonstração.
+    private static final String GPT_API_KEY = "";
+
 
     public static String obterTraducao(String texto) {
         OpenAiService service = new OpenAiService(GPT_API_KEY);
@@ -19,8 +21,11 @@ public class ConsultaChatGPT {
                 .maxTokens(1000)
                 .temperature(0.7)
                 .build();
-
-        var resposta = service.createCompletion(requisicao);
-        return resposta.getChoices().get(0).getText();
+        try {
+            var resposta = service.createCompletion(requisicao);
+            return resposta.getChoices().get(0).getText();
+        }catch(OpenAiHttpException e){
+            return texto;
+        }
     }
 }
