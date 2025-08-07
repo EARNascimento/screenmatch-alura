@@ -14,8 +14,6 @@ import java.util.Properties;
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
 
-	private static String OMDB_API_KEY;
-
 	@Autowired
 	private SerieRepository repositorio;
 
@@ -28,7 +26,5 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 		Principal principal = new Principal(repositorio);
 		principal.exibeMenu();
-
-
 	}
 }

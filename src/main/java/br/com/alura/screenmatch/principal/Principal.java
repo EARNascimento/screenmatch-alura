@@ -14,7 +14,7 @@ public class Principal {
 
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
 
-    private final String OMDB_API_KEY = "";
+    private final String OMDB_API_KEY = System.getenv("OMDB_API_KEY");
 
     private Scanner leitura = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
@@ -94,10 +94,7 @@ public class Principal {
 
     private void listarSeriesBuscadas(){
 
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                        .map(d -> new Serie(d))
-                                .collect(Collectors.toList());
+        List<Serie> series = repositorio.findAll();
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);

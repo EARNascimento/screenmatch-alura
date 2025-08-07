@@ -29,8 +29,7 @@ public class Serie {
     private String poster;
     private String sinopse;
 
-    //Indicando para a JPA que não é necessário persistir este dado nas tabelas.
-    @Transient
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios = new ArrayList<>();
 
     public Serie(){}
